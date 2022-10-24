@@ -1,8 +1,5 @@
 from playwright.sync_api import sync_playwright
 
-url = "https://privatmegleren.no/alle/186220233/lys-og-luftig-2-roms-med-solrik-balkong-og-fantastisk-utsikt-varmtvann-og-fyring-ink-gjennomg-ende-planl-sning/komplettsalgsoppgave"
-
-
 def write_dict_to_file(path, dict):
     with open(path, "w", encoding="utf-8") as file: 
         for type, content in dict.items():
@@ -10,7 +7,6 @@ def write_dict_to_file(path, dict):
             content = content.replace(",", ".")
             file.write(type + "," + content)
             file.write("\n")
-
 
 def parse_paragraphs(page):
     # Scraper paragrafene. 
@@ -32,8 +28,6 @@ def parse_paragraphs(page):
     leilighet_id = page.locator('xpath = //*[@id="routeWrapper"]/div[2]/section/div[2]/div[1]/div/div[2]/div/div[5]/div[1]').inner_text()
     adresse = page.locator('xpath = //*[@id="routeWrapper"]/div[1]/h1').inner_text()
     postnummer_uren= page.locator('xpath = //*[@id="routeWrapper"]/div[1]/h2[1]').inner_text()
-
-
 
     return {
         "eiendoms_type" : eiendoms_type,
@@ -78,9 +72,14 @@ def parse_house_page(url):
         page_info = parse_paragraphs(page)
         write_dict_to_file("data/page_info.csv", page_info)
 
-        # Henter inn PDF og skriver til fil. TODO Bare kommenter inn igjen når det trengs :) 
+        # Henter inn PDF og skriver til fil. 
+        # TODO Bare kommenter inn igjen når det trengs :) 
+        # For øyeblikket er dette satt på hold, da det kommer til å suge :) 
         # scrape_and_download_pdf(page)
 
         browser.close()
+
+
+url = "https://privatmegleren.no/alle/186220233/lys-og-luftig-2-roms-med-solrik-balkong-og-fantastisk-utsikt-varmtvann-og-fyring-ink-gjennomg-ende-planl-sning/komplettsalgsoppgave"
 
 parse_house_page(url)
